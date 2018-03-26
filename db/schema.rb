@@ -10,10 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_03_26_003225) do
+ActiveRecord::Schema.define(version: 2018_03_26_004640) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "facilities", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "slides", force: :cascade do |t|
+    t.string "name"
+    t.string "img_url"
+    t.bigint "facility_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["facility_id"], name: "index_slides_on_facility_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -45,4 +61,5 @@ ActiveRecord::Schema.define(version: 2018_03_26_003225) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "slides", "facilities"
 end
